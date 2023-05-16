@@ -1,11 +1,79 @@
-body { 
+* {
+  box-sizing: border-box;
+}
+
+.app { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Montserrat';
   background-color: $back;
 }
 
-.first-image {
-  width: 300px;
-  height: 300px;
+.app__container {
+  display: inline-block;
+  margin: 100px auto;
+  // width: 80vw;
+  background-color: $back-field;
+  border-radius: 16px;
+}
+
+.start-button {
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  cursor: pointer;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('img/alien.svg');
+  background-color: $cell;
+  background-image: url('img/cat-start.svg');
+}
+
+.field {
+  margin: 0 auto;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(10,40px);
+  grid-template-rows: repeat(10,40px);
+  gap: 2px;
+}
+
+.cell {
+  display: inline-block;
+  cursor: pointer;
+  border-color: $cell;
+  width: 40px;
+  height: 40px;
+  background-color: $cell;
+  transition: all 0.3s;
+}
+
+.cell:hover {
+  background-color: $cell-hell;
+}
+
+.cell:active {
+  background-color: $cell-clicked;
+}
+
+.cell--flag { 
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 90%;
+  background-image: url('img/flag-red.svg');
+}
+
+.cell--bomb {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 90%;
+  background-image: url('img/bomb.svg');
+}
+
+.cell__number {
+  opacity: 0;
+}
+
+.cell--active .cell__number {
+  opacity: 1;
 }
