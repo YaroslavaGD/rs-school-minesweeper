@@ -1,17 +1,11 @@
 import { createCell } from "./cell"; 
-
-export const GRID_PARAMS = {
-  numBombs: 10,
-  numFlags: 10,
-  numCells: 10,
-  totalNumCells: 100,
-  gridArr: [],
-  gridHtml: []
-}
+import { GRID_PARAMS } from "./app-params";
 
 export const createGrid = () => {
   generateGrid();
+  const gridHtml = createHtmlGrid();
 
+  return gridHtml;
 }
 
 const generateGrid = () => {
@@ -112,4 +106,18 @@ const calculateAreaIndexes = (currentRow, currentColumn) => {
   }
 
   return bombsAreaIndexes;
+}
+
+const createHtmlGrid = () => {
+  const gridHtml = document.createElement('div');
+  gridHtml.classList.add('grid');
+
+  const arrGrid = GRID_PARAMS.gridArr;
+  arrGrid.forEach( (row, i) => {
+    row.forEach( (cell, j) => {
+      const newCell = createCell(i, j, cell);
+      gridHtml.append(newCell);
+    });
+  });
+  return gridHtml;
 }

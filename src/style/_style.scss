@@ -13,7 +13,6 @@
 .app__container {
   display: inline-block;
   margin: 100px auto;
-  // width: 80vw;
   background-color: $back-field;
   border-radius: 16px;
 }
@@ -29,22 +28,22 @@
   background-image: url('img/cat-start.svg');
 }
 
-.field {
-  margin: 0 auto;
-  padding: 30px;
+.grid {
   display: grid;
   grid-template-columns: repeat(10,40px);
   grid-template-rows: repeat(10,40px);
   gap: 2px;
+  padding: 30px;
+  margin: 0 auto;
 }
 
 .cell {
   display: inline-block;
-  cursor: pointer;
-  border-color: $cell;
   width: 40px;
   height: 40px;
+  border-color: $cell;
   background-color: $cell;
+  cursor: pointer;
   transition: all 0.3s;
 }
 
@@ -72,6 +71,39 @@
 
 .cell__number {
   opacity: 0;
+  font-weight: 700;
+}
+
+.cell[data-value='1'] .cell__number {
+  color: $cell-one;
+}
+
+.cell[data-value='2'] .cell__number {
+  color: $cell-two;
+}
+
+.cell[data-value='3'] .cell__number {
+  color: $cell-three;
+}
+
+.cell[data-value='4'] .cell__number {
+  color: $cell-four;
+}
+
+.cell[data-value='5'] .cell__number {
+  color: $cell-five;
+}
+
+.cell[data-value='6'] .cell__number {
+  color: $cell-six;
+}
+
+.cell[data-value='7'] .cell__number {
+  color: $cell-seven;
+}
+
+.cell[data-value='8'] .cell__number {
+  color: $cell-eight;
 }
 
 .cell--active .cell__number {
