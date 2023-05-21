@@ -4,5 +4,6 @@ export const GRID_PARAMS = {
   numCells: 10,
   totalNumCells: 100,
   gridArr: [],
-  gridHtml: []
+  gridHtml: undefined,
+  cellsArr: []
 }

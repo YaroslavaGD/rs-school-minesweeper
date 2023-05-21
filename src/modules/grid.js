@@ -1,15 +1,16 @@
-import { createCell } from "./cell"; 
+import { createCell, openCell, getCellParameters, calculateAreaIndexes } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
 
 export const createGrid = () => {
   generateGrid();
   const gridHtml = createHtmlGrid();
-
-  return gridHtml;
+  
+  GRID_PARAMS.gridHtml = gridHtml;
 }
 
 const generateGrid = () => {
   const bombsArr = addBombs();
+  
   console.log(bombsArr);
   GRID_PARAMS.gridArr = calculateNumbers(bombsArr);
 }
@@ -81,43 +82,63 @@ const calculateNumbers = (bombs2DArr) => {
   return resultArr;
 }
 
-const calculateAreaIndexes = (currentRow, currentColumn) => {
-  const bombsAreaIndexes = {
-    left: [currentRow, currentColumn - 1],
-    right: [currentRow, currentColumn + 1],
-    top: [currentRow - 1, currentColumn],
-    topLeft: [currentRow - 1, currentColumn - 1],
-    topRight: [currentRow - 1, currentColumn + 1],
-    bottom: [currentRow + 1, currentColumn],
-    bottomLeft: [currentRow + 1, currentColumn - 1],
-    bottomRight: [currentRow + 1, currentColumn + 1]
-  };
-
-  for (let key in bombsAreaIndexes) {
-    let newRow = bombsAreaIndexes[key][0];
-    let newColumn = bombsAreaIndexes[key][1];
-
-    //-1 - incorrect value
-    if ((newRow < 0) || (newRow >= GRID_PARAMS.numCells)) newRow = -1;
-    if ((newColumn < 0) || (newColumn >= GRID_PARAMS.numCells)) newColumn = -1;
-
-    bombsAreaIndexes[key][0] = newRow;
-    bombsAreaIndexes[key][1] = newColumn;
-  }
-
-  return bombsAreaIndexes;
-}
-
 const createHtmlGrid = () => {
   const gridHtml = document.createElement('div');
   gridHtml.classList.add('grid');
 
   const arrGrid = GRID_PARAMS.gridArr;
+  let idCell = 0;
   arrGrid.forEach( (row, i) => {
+
     row.forEach( (cell, j) => {
-      const newCell = createCell(i, j, cell);
+      const newCell = createCell(idCell, i, j, cell);
+      idCell++;
+      GRID_PARAMS.cellsArr.push(newCell);
       gridHtml.append(newCell);
     });
   });
+
+  const clickGrid = (e) => {
+    e.stopPropagation();
+    const activeElement = e.target;
+    if (activeElement !== gridHtml) {
+      const activeCell = activeElement.closest('.cell');
+      if (activeCell) {
+        openEmptyCells(activeCell);
+      }
+    }
+  }
+  gridHtml.addEventListener('click', clickGrid);
+
   return gridHtml;
+}
+
+const areaStack = [];
+const openEmptyCells = (activeCell) => {
+  const activeCellParameters = getCellParameters(activeCell);
+  const areaIndexes = calculateAreaIndexes(activeCellParameters.row, activeCellParameters.column);
+
+  if ((activeCellParameters.type === 'number') || (activeCellParameters.type === 'bomb')) {
+    console.log('is number');
+    openCell(activeCell, true);
+  } else if (activeCellParameters.type === 'empty') {
+    if (activeCellParameters.open !== true) {
+      openCell(activeCell, true);
+      for (let key in areaIndexes) {
+        let rowAreaCell = areaIndexes[key][0];
+        let columnAreaCell = areaIndexes[key][1];
+  
+        // проверка что такие индексы существуют
+        if ((rowAreaCell !== -1) && (columnAreaCell !== -1)) {
+          let indexAreaCell = Number(rowAreaCell + "" + columnAreaCell);
+          let areaCell = GRID_PARAMS.cellsArr[indexAreaCell];
+          let areaCellParameters = getCellParameters(areaCell);
+  
+          if ((areaCellParameters.open !== true)) {
+            openEmptyCells(areaCell);
+          }
+        }
+      }
+    }
+  }
 }

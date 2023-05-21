@@ -44,7 +44,12 @@
   border-color: $cell;
   background-color: $cell;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.1s;
+}
+
+.cell--active {
+  background-color: transparent;
+  border: none;
 }
 
 .cell:hover {
@@ -66,12 +71,21 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: 90%;
+  background-image: none;
+}
+
+.cell--active.cell--bomb{
   background-image: url('img/bomb.svg');
 }
 
 .cell__number {
   opacity: 0;
   font-weight: 700;
+  user-select: none;
+}
+
+.cell--active .cell__number {
+  opacity: 1;
 }
 
 .cell[data-value='1'] .cell__number {
@@ -104,8 +118,4 @@
 
 .cell[data-value='8'] .cell__number {
   color: $cell-eight;
-}
-
-.cell--active .cell__number {
-  opacity: 1;
 }

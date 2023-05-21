@@ -9,10 +9,9 @@ export const createApp = () => {
   appMain.classList.add('app__container');
 
 
-  const grid = createGrid();
+  createGrid();
   // console.log("======= MATRIX =======");
-  // console.log(GRID_PARAMS.gridArr);
-  appMain.append(grid);
+  appMain.append(GRID_PARAMS.gridHtml);
 
   app.append(appMain);
 }
