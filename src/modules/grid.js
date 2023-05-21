@@ -113,15 +113,13 @@ const createHtmlGrid = () => {
   return gridHtml;
 }
 
-const areaStack = [];
 const openEmptyCells = (activeCell) => {
   const activeCellParameters = getCellParameters(activeCell);
   const areaIndexes = calculateAreaIndexes(activeCellParameters.row, activeCellParameters.column);
 
-  if ((activeCellParameters.type === 'number') || (activeCellParameters.type === 'bomb')) {
-    console.log('is number');
+  if ((activeCellParameters.mode === 'number') || (activeCellParameters.mode === 'bomb')) {
     openCell(activeCell, true);
-  } else if (activeCellParameters.type === 'empty') {
+  } else if (activeCellParameters.mode === 'empty') {
     if (activeCellParameters.open !== true) {
       openCell(activeCell, true);
       for (let key in areaIndexes) {

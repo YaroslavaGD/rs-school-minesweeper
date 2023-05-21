@@ -14,4 +14,8 @@ export const createApp = () => {
   appMain.append(GRID_PARAMS.gridHtml);
 
   app.append(appMain);
+
+  app.addEventListener('gameover', (e) => {
+    
+  });
 }

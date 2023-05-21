@@ -17,13 +17,13 @@ export const createCell = (id, rowIndex, columnIndex, value) => {
   switch (value) {
     case 'x' :
       buttonCell.classList.add('cell--bomb');
-      buttonCell.dataset.type = 'bomb';
+      buttonCell.dataset.mode = 'bomb';
       break;
     case 0 :
-      buttonCell.dataset.type = 'empty';
+      buttonCell.dataset.mode = 'empty';
       break;
     default:
-      buttonCell.dataset.type = 'number';
+      buttonCell.dataset.mode = 'number';
       number.innerText = value;
   }
     
@@ -37,7 +37,7 @@ export const getCellParameters = (cell) => {
     id: cell.dataset.id,
     row: cell.dataset.row,
     column: cell.dataset.column,
-    type: cell.dataset.type,
+    mode: cell.dataset.mode,
     open: (cell.dataset.open === 'true'),
   }
 }
@@ -77,4 +77,11 @@ export const calculateAreaIndexes = (currentRow, currentColumn) => {
 export const openCell = (cell, isOpen) => {
   cell.dataset.open = isOpen;
   cell.classList.add('cell--active');
+
+  if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
+    cell.dispatchEvent(new CustomEvent('gameover', {
+      bubbles: true,
+      detail: getCellParameters(cell)
+    }));
+  }
 }
