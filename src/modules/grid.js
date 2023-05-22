@@ -4,9 +4,7 @@ import { GRID_PARAMS } from "./app-params";
 
 export const createGrid = () => {
   generateGrid();
-  const gridHtml = createHtmlGrid();
-  
-  GRID_PARAMS.gridHtml = gridHtml;
+  createHtmlGrid();
 }
 
 const generateGrid = () => {
@@ -22,7 +20,7 @@ const addBombs = () => {
   let totalBombs = GRID_PARAMS.numBombs;
 
   for (let i = 0; i < GRID_PARAMS.totalNumCells; i++) {
-    if (i <= totalBombs -1) {
+    if (i <= totalBombs - 1) {
       bombsArr.push('x');
     } else {
       bombsArr.push(0);
@@ -104,13 +102,23 @@ const createHtmlGrid = () => {
     if (activeElement !== gridHtml) {
       const activeCell = activeElement.closest('.cell');
       if (activeCell) {
+        
+        if (!GRID_PARAMS.isFirstClick) {
+          GRID_PARAMS.isFirstClick = true;
+          gridHtml.dispatchEvent(new CustomEvent('firstclick', {
+            bubbles: true,
+            detail: 'first click'
+          }));
+        }
+
+        if (activeCell.dataset.open !== 'true') GRID_PARAMS.stepsNum++;
+
         openEmptyCells(activeCell);
       }
     }
   }
   gridHtml.addEventListener('click', clickGrid);
-
-  return gridHtml;
+  GRID_PARAMS.gridHtml = gridHtml;
 }
 
 const openEmptyCells = (activeCell) => {

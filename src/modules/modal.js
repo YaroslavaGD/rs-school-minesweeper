@@ -1,11 +1,14 @@
-import { APP_PARAMS } from "./app-params";
+import { APP_PARAMS, GRID_PARAMS } from "./app-params";
 import { createHtmlElement } from "./element-creator";
 
 import imageLoss from "../img/cat-loss.svg";
 import imageWin from "../img/cat-win.svg";
+import { convertTimeToString, pauseTimer } from "./app-timer";
 
 export const MODAL_TEXT = {
-  win: "Hooray! You found all mines in ## seconds and N moves!",
+  winBegin: "Hooray! You found all mines in ",
+  winSeconds: ' seconds and ',
+  winMovesEnd: ' moves!',
   loss: "Game over. Try again"
 }
 
@@ -51,12 +54,13 @@ export const createModal = () => {
 }
 
 export const openModal = (type) => {
+  pauseTimer();
   APP_PARAMS.appModal.classList.remove('app-modal--win');
   APP_PARAMS.appModal.classList.remove('app-modal--loss');
 
   if (type === 'win') {
     APP_PARAMS.appModal.classList.add('app-modal--win');
-    APP_PARAMS.appModalText.innerText = MODAL_TEXT.win;
+    APP_PARAMS.appModalText.innerText = MODAL_TEXT.winBegin + convertTimeToString() + MODAL_TEXT.winSeconds + GRID_PARAMS.stepsNum + MODAL_TEXT.winMovesEnd;
   }
   
   if (type === 'loss') {
@@ -74,5 +78,9 @@ const closeModal = (e) => {
     modal.className = '';
     modal.classList.add('app-modal');
     APP_PARAMS.appModalText.innerText = '';
+
+    modal.dispatchEvent(new CustomEvent('closemodal',{
+      bubbles: true
+    }));
   }
 }

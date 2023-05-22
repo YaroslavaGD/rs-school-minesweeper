@@ -3,25 +3,31 @@ import { createHtmlElement } from "./element-creator";
 import imageTime from "../img/time.svg";
 import imageFlag from "../img/flag-red.svg";
 import imageBomb from "../img/bomb.svg";
+// import { stopTimer } from "./app-timer";
+// import { destroyApp } from "./app";
 
 export const createHeader = () => {
   const appHeader = createHtmlElement('div', 'app-header');
 
   const appTimer = createTimer();
-  const restartButton = createHtmlElement('button', 'app-restart');
   const appFlags = createFlags();
   const appBombs = createBombs();
 
+  // const restartButton = createHtmlElement('button', 'app-restart');
+  // restartButton.addEventListener('click', (e) => {
+  //   // e.preventDefault();
+  //   restartButton.dispatchEvent(new CustomEvent('restartapp', {
+  //     bubbles: true,
+  //   }));
+  // });
+
   appHeader.append(appTimer);
-  appHeader.append(restartButton);
+  // appHeader.append(restartButton);
   appHeader.append(appFlags);
   appHeader.append(appBombs);
 
   APP_PARAMS.appHeader = appHeader;
-  APP_PARAMS.appTimer = appTimer;
-  APP_PARAMS.appBombs = appBombs;
-  APP_PARAMS.appFlags = appFlags;
-  APP_PARAMS.appRestart = restartButton;
+  // APP_PARAMS.appRestart = restartButton;
 }
 
 const createTimer = () => {
@@ -30,7 +36,7 @@ const createTimer = () => {
 
   const timerNumber = createHtmlElement('time', 'app-timer__number');
   timerNumber.classList.add('app-header__text');
-  timerNumber.innerText = GRID_PARAMS.totalTime + '0:00';
+  timerNumber.innerText = '00:00';
 
   const timerImg = new Image();
   timerImg.src = imageTime;
@@ -39,6 +45,9 @@ const createTimer = () => {
 
   appTimer.append(timerNumber);
   appTimer.append(timerImg);
+
+  
+  APP_PARAMS.appTimer = timerNumber;
 
   return appTimer;
 }
@@ -59,6 +68,7 @@ const createFlags = () => {
   appFlags.append(flagsNumber);
   appFlags.append(flagsImg);
 
+  APP_PARAMS.appFlags = flagsNumber;
   return appFlags;
 }
 
@@ -77,6 +87,9 @@ const createBombs = () => {
 
   appBombs.append(bombsNumber);
   appBombs.append(bombsImg);
+
+  
+  APP_PARAMS.appBombs = bombsNumber;
 
   return appBombs;
 }
