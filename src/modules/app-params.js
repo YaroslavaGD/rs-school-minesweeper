@@ -5,5 +5,11 @@ export const GRID_PARAMS = {
   totalNumCells: 100,
   gridArr: [],
   gridHtml: undefined,
-  cellsArr: []
+  cellsArr: [],
+}
+
+export const APP_PARAMS = {
+  appModal: undefined,
+  appModalButton: undefined,
+  appModalText: undefined
 }

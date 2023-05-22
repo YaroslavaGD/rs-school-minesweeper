@@ -1,5 +1,6 @@
-import { GRID_PARAMS } from "./app-params";
+import { GRID_PARAMS, APP_PARAMS } from "./app-params";
 import { createGrid } from './grid';
+import { createModal, openModal } from "./modal";
 
 
 export const createApp = () => {
@@ -10,12 +11,17 @@ export const createApp = () => {
 
 
   createGrid();
-  // console.log("======= MATRIX =======");
+  createModal();
+
   appMain.append(GRID_PARAMS.gridHtml);
+  appMain.append(APP_PARAMS.appModal);
 
   app.append(appMain);
 
   app.addEventListener('gameover', (e) => {
-    
+    // setTimeout(() => {
+
+      openModal('loss');
+    // }, 300);
   });
 }
