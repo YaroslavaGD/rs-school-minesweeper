@@ -1,8 +1,8 @@
+import { createHtmlElement } from "./element-creator";
 import { GRID_PARAMS } from "./app-params";
 
 export const createCell = (id, rowIndex, columnIndex, value) => {
-  const buttonCell = document.createElement('button');
-  buttonCell.classList.add('cell');
+  const buttonCell = createHtmlElement('button', 'cell');
 
   buttonCell.dataset.id = id;
   buttonCell.dataset.row = rowIndex;
@@ -11,8 +11,7 @@ export const createCell = (id, rowIndex, columnIndex, value) => {
   buttonCell.dataset.open = false;
 
 
-  const number = document.createElement('span');
-  number.classList.add('cell__number');
+  const number = createHtmlElement('span', 'cell__number');
 
   switch (value) {
     case 'x' :

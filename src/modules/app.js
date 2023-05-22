@@ -1,3 +1,4 @@
+import { createHtmlElement } from "./element-creator";
 import { GRID_PARAMS, APP_PARAMS } from "./app-params";
 import { createGrid } from './grid';
 import { createModal, openModal } from "./modal";
@@ -6,8 +7,7 @@ import { createModal, openModal } from "./modal";
 export const createApp = () => {
   const app = document.querySelector('.app');
   
-  const appMain = document.createElement('main');
-  appMain.classList.add('app__container');
+  const appMain = createHtmlElement('main', 'app__container');
 
 
   createGrid();

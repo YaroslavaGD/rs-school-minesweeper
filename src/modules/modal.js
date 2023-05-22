@@ -1,4 +1,5 @@
 import { APP_PARAMS } from "./app-params";
+import { createHtmlElement } from "./element-creator";
 import imageLoss from "../img/cat-loss.svg";
 import imageWin from "../img/cat-win.svg";
 
@@ -8,15 +9,11 @@ export const MODAL_TEXT = {
 }
 
 export const createModal = () => {
-  const modal = document.createElement('div');
-  modal.classList.add('app-modal');
+  const modal = createHtmlElement('div','app-modal');
   modal.addEventListener('click', closeModal);
   
-  const modalWindow = document.createElement('div');
-  modalWindow.classList.add('app-modal__window');
-
-  const modalHeader = document.createElement('div');
-  modalHeader.classList.add('app-modal__header');
+  const modalWindow = createHtmlElement('div', 'app-modal__window');
+  const modalHeader = createHtmlElement('div', 'app-modal__header');
 
   const modalImgLoss = new Image();
   modalImgLoss.src = imageLoss;
@@ -33,16 +30,13 @@ export const createModal = () => {
   modalHeader.append(modalImgLoss);
   modalHeader.append(modalImgWin);
 
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('app-modal__content');
+  const modalContent = createHtmlElement('div', 'app-modal__content');
   
-  const modalText = document.createElement('p');
-  modalText.classList.add('app-modal__text');
+  const modalText = createHtmlElement('p', 'app-modal__text');
 
   modalContent.append(modalText);
 
-  const modalButton = document.createElement('button');
-  modalButton.classList.add('app-modal__button');
+  const modalButton = createHtmlElement('button', 'app-modal__button');
   
   modalWindow.append(modalHeader);
   modalWindow.append(modalContent);
@@ -53,9 +47,6 @@ export const createModal = () => {
   APP_PARAMS.appModalButton = modalButton;
   APP_PARAMS.appModalText = modalText;
 
-
-
-  // return modal;
 }
 
 export const openModal = (type) => {

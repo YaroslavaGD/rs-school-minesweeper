@@ -17,9 +17,27 @@
   border-radius: 16px;
 }
 
-.start-button {
-  width: 40px;
-  height: 40px;
+.app-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-header__item {
+  display: flex;
+  align-items: center;
+}
+
+.app-header__text {
+  color: $app-white;
+}
+
+.app-header__img {
+  width: 80px;
+}
+
+.app-restart {
+  width: 80px;
+  height: 80px;
   padding: 2px;
   cursor: pointer;
   background-repeat: no-repeat;

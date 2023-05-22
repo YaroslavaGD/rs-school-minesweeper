@@ -1,3 +1,4 @@
+import { createHtmlElement } from "./element-creator";
 import { createCell, openCell, getCellParameters, calculateAreaIndexes } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
 
@@ -83,8 +84,7 @@ const calculateNumbers = (bombs2DArr) => {
 }
 
 const createHtmlGrid = () => {
-  const gridHtml = document.createElement('div');
-  gridHtml.classList.add('grid');
+  const gridHtml = createHtmlElement('div', 'grid');
 
   const arrGrid = GRID_PARAMS.gridArr;
   let idCell = 0;
@@ -120,6 +120,7 @@ const openEmptyCells = (activeCell) => {
   if ((activeCellParameters.mode === 'number') || (activeCellParameters.mode === 'bomb')) {
     openCell(activeCell, true);
   } else if (activeCellParameters.mode === 'empty') {
+    
     if (activeCellParameters.open !== true) {
       openCell(activeCell, true);
       for (let key in areaIndexes) {
