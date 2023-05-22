@@ -1,5 +1,6 @@
 import { APP_PARAMS } from "./app-params";
 import { createHtmlElement } from "./element-creator";
+
 import imageLoss from "../img/cat-loss.svg";
 import imageWin from "../img/cat-win.svg";
 
@@ -50,6 +51,8 @@ export const createModal = () => {
 }
 
 export const openModal = (type) => {
+  APP_PARAMS.appModal.classList.remove('app-modal--win');
+  APP_PARAMS.appModal.classList.remove('app-modal--loss');
 
   if (type === 'win') {
     APP_PARAMS.appModal.classList.add('app-modal--win');

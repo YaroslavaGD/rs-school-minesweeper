@@ -1,6 +1,7 @@
 import { createHtmlElement } from "./element-creator";
 import { GRID_PARAMS, APP_PARAMS } from "./app-params";
 import { createGrid } from './grid';
+import { createHeader } from "./app-header";
 import { createModal, openModal } from "./modal";
 
 
@@ -11,17 +12,20 @@ export const createApp = () => {
 
 
   createGrid();
+  createHeader();
   createModal();
 
+  appMain.append(APP_PARAMS.appHeader);
   appMain.append(GRID_PARAMS.gridHtml);
   appMain.append(APP_PARAMS.appModal);
 
   app.append(appMain);
 
   app.addEventListener('gameover', (e) => {
-    // setTimeout(() => {
-
       openModal('loss');
-    // }, 300);
+  });
+
+  app.addEventListener('gamewin', (e) => {
+    openModal('win');
   });
 }

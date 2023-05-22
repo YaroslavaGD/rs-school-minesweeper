@@ -77,8 +77,15 @@ export const openCell = (cell, isOpen) => {
   cell.dataset.open = isOpen;
   cell.classList.add('cell--active');
 
+  if ((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) GRID_PARAMS.numEmptyCells--;
+
   if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
     cell.dispatchEvent(new CustomEvent('gameover', {
+      bubbles: true,
+      detail: getCellParameters(cell)
+    }));
+  } else if (GRID_PARAMS.numEmptyCells === 0) {
+    cell.dispatchEvent(new CustomEvent('gamewin', {
       bubbles: true,
       detail: getCellParameters(cell)
     }));
