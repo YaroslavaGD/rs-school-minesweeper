@@ -40,6 +40,7 @@ export const APP_PARAMS = {
   appTimer: undefined,
   appBombs: undefined,
   appFlags: undefined,
+  appMoves: undefined,
   appRestart: undefined,
 
   appModal: undefined,

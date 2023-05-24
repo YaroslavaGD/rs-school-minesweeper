@@ -62,6 +62,10 @@
   margin: 0 auto;
 }
 
+.grid--inactive {
+  pointer-events: none;
+}
+
 .cell {
   display: inline-block;
   width: 40px;

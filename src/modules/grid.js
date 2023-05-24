@@ -1,6 +1,7 @@
 import { createHtmlElement } from "./element-creator";
 import { createCell, openCell, getCellParameters, calculateAreaIndexes } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
+import { addNumMoves } from "./app-header";
 
 export const createGrid = () => {
   generateGrid();
@@ -111,7 +112,10 @@ const createHtmlGrid = () => {
           }));
         }
 
-        if (activeCell.dataset.open !== 'true') GRID_PARAMS.stepsNum++;
+        if (activeCell.dataset.open !== 'true') {
+          addNumMoves();
+        }
+
 
         openEmptyCells(activeCell);
       }

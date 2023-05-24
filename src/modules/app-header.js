@@ -2,6 +2,7 @@ import { APP_PARAMS, GRID_PARAMS } from "./app-params";
 import { createHtmlElement } from "./element-creator";
 import imageTime from "../img/time.svg";
 import imageFlag from "../img/flag-red.svg";
+import imageMove from "../img/step.svg";
 import imageBomb from "../img/bomb.svg";
 // import { stopTimer } from "./app-timer";
 // import { destroyApp } from "./app";
@@ -11,6 +12,7 @@ export const createHeader = () => {
 
   const appTimer = createTimer();
   const appFlags = createFlags();
+  const appMoves = createMoves();
   const appBombs = createBombs();
 
   // const restartButton = createHtmlElement('button', 'app-restart');
@@ -24,10 +26,17 @@ export const createHeader = () => {
   appHeader.append(appTimer);
   // appHeader.append(restartButton);
   appHeader.append(appFlags);
+  appHeader.append(appMoves);
   appHeader.append(appBombs);
 
   APP_PARAMS.appHeader = appHeader;
   // APP_PARAMS.appRestart = restartButton;
+}
+
+
+export const addNumMoves = () => {
+  GRID_PARAMS.stepsNum++;
+  APP_PARAMS.appMoves.innerText = GRID_PARAMS.stepsNum;
 }
 
 const createTimer = () => {
@@ -70,6 +79,26 @@ const createFlags = () => {
 
   APP_PARAMS.appFlags = flagsNumber;
   return appFlags;
+}
+
+const createMoves = () => {
+  const appMoves = createHtmlElement('div', 'app-moves');
+  appMoves.classList.add('app-header__item');
+
+  const movesNumber = createHtmlElement('span', 'app-moves__number');
+  movesNumber.classList.add('app-header__text');
+  movesNumber.innerText = 0;
+
+  const movesImg = new Image();
+  movesImg.src = imageMove;
+  movesImg.alt = 'Cat step';
+  movesImg.classList.add('app-header__img');
+
+  appMoves.append(movesNumber);
+  appMoves.append(movesImg);
+
+  APP_PARAMS.appMoves = movesNumber;
+  return appMoves;
 }
 
 const createBombs = () => {
