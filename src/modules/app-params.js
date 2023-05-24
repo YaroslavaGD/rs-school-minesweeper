@@ -13,6 +13,7 @@ const DEFAULT_GRID_PARAMS = {
   foundBombs: 0,
   gridArr: [],
   gridHtml: undefined,
+  bombsArr: [],
   cellsArr: [],
 }
 

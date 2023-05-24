@@ -1,5 +1,5 @@
 import { createHtmlElement } from "./element-creator";
-import { createCell, openEmptyCells, calculateAreaIndexes, toggleFlag } from "./cell"; 
+import { createCell, openEmptyCells, calculateAreaIndexes, toggleFlag, getCellParameters, setCellValue } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
 import { addNumMoves } from "./app-header";
 
@@ -10,14 +10,17 @@ export const createGrid = () => {
 
 const generateGrid = () => {
   const bombsArr = addBombs();
+  const bombs2DArr = convertTo2DArray(bombsArr, GRID_PARAMS.numCells);
+  
+  GRID_PARAMS.bombsArr = bombsArr;
   
   console.log(bombsArr);
-  GRID_PARAMS.gridArr = calculateNumbers(bombsArr);
+  console.log(bombs2DArr);
+  GRID_PARAMS.gridArr = calculateNumbers(bombs2DArr);
 }
 
 const addBombs = () => {
   let bombsArr = [];
-  let bombs2DArr = [];
   let totalBombs = GRID_PARAMS.numBombs;
 
   for (let i = 0; i < GRID_PARAMS.totalNumCells; i++) {
@@ -29,8 +32,7 @@ const addBombs = () => {
   }
 
   bombsArr = shuffleRandomArray(bombsArr);
-  bombs2DArr = convertTo2DArray(bombsArr, GRID_PARAMS.numCells);
-  return bombs2DArr;
+  return bombsArr;
 }
 
 const shuffleRandomArray= (array) => {
@@ -85,9 +87,9 @@ const calculateNumbers = (bombs2DArr) => {
 const createHtmlGrid = () => {
   const gridHtml = createHtmlElement('div', 'grid');
 
-  const arrGrid = GRID_PARAMS.gridArr;
+  const gridArr = GRID_PARAMS.gridArr;
   let idCell = 0;
-  arrGrid.forEach( (row, i) => {
+  gridArr.forEach( (row, i) => {
 
     row.forEach( (cell, j) => {
       const newCell = createCell(idCell, i, j, cell);
@@ -110,6 +112,10 @@ const createHtmlGrid = () => {
             bubbles: true,
             detail: 'first click'
           }));
+
+          if (activeCell.dataset.mode === 'bomb') {
+            setBombInNewPlace(activeCell);
+          }
         }
 
         if ((activeCell.dataset.open !== 'true') && 
@@ -136,6 +142,10 @@ const createHtmlGrid = () => {
             bubbles: true,
             detail: 'first click'
           }));
+
+          if (activeCell.dataset.mode === 'bomb') {
+            setBombInNewPlace(activeCell);
+          }
         }
 
         if (activeCell.dataset.open !== 'true') {
@@ -147,4 +157,41 @@ const createHtmlGrid = () => {
   gridHtml.addEventListener('contextmenu', rightClickGrid);
 
   GRID_PARAMS.gridHtml = gridHtml;
+}
+
+const setBombInNewPlace = (cell) => {
+  const cellParameters = getCellParameters(cell);
+  const cellId = cellParameters.id;
+
+  let isPlaced = false;
+  let currentI = 0;
+
+  while (!isPlaced || (currentI === GRID_PARAMS.totalNumCells - 1)) {
+
+    const currentCellValue = GRID_PARAMS.bombsArr[currentI];
+
+    if ((currentI !== cellId) && (currentCellValue !== 'x')) {
+      GRID_PARAMS.bombsArr[currentI] = 'x';
+      isPlaced = true;
+    }
+    currentI++;
+  }
+  GRID_PARAMS.bombsArr[cellId] = 0;
+
+  const bombs2DArr = convertTo2DArray(GRID_PARAMS.bombsArr, GRID_PARAMS.numCells);
+  const newGridArr = calculateNumbers(bombs2DArr);
+
+  GRID_PARAMS.gridArr = newGridArr;
+  overwriteCellsArr();
+}
+
+const overwriteCellsArr = () => {
+  GRID_PARAMS.gridArr.forEach((row, rowIndex) => {
+    row.forEach((value, columnIndex) => {
+      const currentIndex = Number(rowIndex + '' + columnIndex);
+      const currentCell = GRID_PARAMS.cellsArr[currentIndex];
+      
+      setCellValue(currentCell, value);
+    })
+  });
 }

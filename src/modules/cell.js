@@ -4,15 +4,13 @@ import { increaseCurrentFlag, decreaseCurrentFlag } from "./app-header";
 
 export const createCell = (id, rowIndex, columnIndex, value) => {
   const buttonCell = createHtmlElement('button', 'cell');
+  const number = createHtmlElement('span', 'cell__number');
 
   buttonCell.dataset.id = id;
   buttonCell.dataset.row = rowIndex;
   buttonCell.dataset.column = columnIndex;
   buttonCell.dataset.value = value;
   buttonCell.dataset.open = false;
-
-
-  const number = createHtmlElement('span', 'cell__number');
 
   switch (value) {
     case 'x' :
@@ -28,9 +26,29 @@ export const createCell = (id, rowIndex, columnIndex, value) => {
   }
     
   buttonCell.append(number);
-
   return buttonCell;
 };
+
+export const setCellValue = (cell, value) => {
+  const number = cell.querySelector('.cell__number');
+
+  cell.classList.remove('cell--bomb');
+  number.innerText = '';
+  
+  cell.dataset.value = value;
+  switch (value) {
+    case 'x' :
+      cell.classList.add('cell--bomb');
+      cell.dataset.mode = 'bomb';
+      break;
+    case 0 :
+      cell.dataset.mode = 'empty';
+      break;
+    default:
+      cell.dataset.mode = 'number';
+      number.innerText = value;
+  }
+}
 
 export const getCellParameters = (cell) => {
   return {
