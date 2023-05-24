@@ -25,7 +25,7 @@ export const startApp = () => {
 const createApp = () => {
   const app = document.querySelector('.app');
   const appMain = createHtmlElement('main', 'app__container');
-  
+
   createGrid();
   createHeader();
   createModal();
@@ -39,17 +39,17 @@ const createApp = () => {
   app.addEventListener('gameover', (e) => {
     openModal('loss');
     GRID_PARAMS.gridHtml.classList.add('grid--inactive');
-    app.addEventListener('closemodal', (eventModal) => {
-      stopTimer();
-    });
+    // app.addEventListener('closemodal', (eventModal) => {
+    //   stopTimer();
+    // });
   });
 
   app.addEventListener('gamewin', (e) => {
     openModal('win');
     GRID_PARAMS.gridHtml.classList.add('grid--inactive');
-    app.addEventListener('closemodal', (eventModal) => {
-      stopTimer();
-    });
+    // app.addEventListener('closemodal', (eventModal) => {
+    //   stopTimer();
+    // });
   });
 
   app.addEventListener('firstclick', (e) => {

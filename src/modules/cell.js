@@ -76,13 +76,17 @@ export const calculateAreaIndexes = (currentRow, currentColumn) => {
 }
 
 export const openCell = (cell, isOpen) => {
+  console.log('open cell')
   if (!cell.classList.contains('cell--flag')) {
-    cell.dataset.open = isOpen;
     cell.classList.add('cell--active');
     cell.classList.remove('cell--flag');
-  
-    if ((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) GRID_PARAMS.numEmptyCells--;
-  
+    
+    if (((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) && 
+        (cell.dataset.isOpen !== true)) {
+          GRID_PARAMS.numEmptyCells--;
+          console.log(GRID_PARAMS.numEmptyCells);
+    } 
+    
     if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
       cell.dispatchEvent(new CustomEvent('gameover', {
         bubbles: true,
@@ -94,31 +98,35 @@ export const openCell = (cell, isOpen) => {
         detail: getCellParameters(cell)
       }));
     }
+    cell.dataset.open = isOpen;
   }
 }
 
 export const openEmptyCells = (activeCell) => {
   const activeCellParameters = getCellParameters(activeCell);
   const areaIndexes = calculateAreaIndexes(activeCellParameters.row, activeCellParameters.column);
-
-  if ((activeCellParameters.mode === 'number') || (activeCellParameters.mode === 'bomb') || (activeCellParameters.hasFlag)) {
-    openCell(activeCell, true);
-  } else if (activeCellParameters.mode === 'empty') {
-    
-    if (activeCellParameters.open !== true) {
+  if (!activeCell.classList.contains('cell--active')) {
+    if ((activeCellParameters.mode === 'number') || 
+        (activeCellParameters.mode === 'bomb') || 
+        (activeCellParameters.hasFlag)) {
       openCell(activeCell, true);
-      for (let key in areaIndexes) {
-        let rowAreaCell = areaIndexes[key][0];
-        let columnAreaCell = areaIndexes[key][1];
-  
-        // проверка что такие индексы существуют
-        if ((rowAreaCell !== -1) && (columnAreaCell !== -1)) {
-          let indexAreaCell = Number(rowAreaCell + "" + columnAreaCell);
-          let areaCell = GRID_PARAMS.cellsArr[indexAreaCell];
-          let areaCellParameters = getCellParameters(areaCell);
-  
-          if ((areaCellParameters.open !== true)) {
-            openEmptyCells(areaCell);
+    } else if (activeCellParameters.mode === 'empty') {
+      
+      if (activeCellParameters.open !== true) {
+        openCell(activeCell, true);
+        for (let key in areaIndexes) {
+          let rowAreaCell = areaIndexes[key][0];
+          let columnAreaCell = areaIndexes[key][1];
+    
+          // проверка что такие индексы существуют
+          if ((rowAreaCell !== -1) && (columnAreaCell !== -1)) {
+            let indexAreaCell = Number(rowAreaCell + "" + columnAreaCell);
+            let areaCell = GRID_PARAMS.cellsArr[indexAreaCell];
+            let areaCellParameters = getCellParameters(areaCell);
+    
+            if ((areaCellParameters.open !== true)) {
+              openEmptyCells(areaCell);
+            }
           }
         }
       }
@@ -135,6 +143,17 @@ export const toggleFlag = (cell) => {
   } else {
     if (decreaseCurrentFlag()) {
       cell.classList.add('cell--flag');
+    }
+  }
+
+  if (cell.dataset.mode === 'bomb') {
+    GRID_PARAMS.foundBombs++;
+
+    if (GRID_PARAMS.foundBombs === GRID_PARAMS.numBombs) {
+      cell.dispatchEvent(new CustomEvent('gamewin', {
+        bubbles: true,
+        detail: getCellParameters(cell)
+      }));
     }
   }
 }
