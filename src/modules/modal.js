@@ -60,7 +60,7 @@ export const openModal = (type) => {
 
   if (type === 'win') {
     APP_PARAMS.appModal.classList.add('app-modal--win');
-    APP_PARAMS.appModalText.innerText = MODAL_TEXT.winBegin + convertTimeToString() + MODAL_TEXT.winSeconds + GRID_PARAMS.stepsNum + MODAL_TEXT.winMovesEnd;
+    APP_PARAMS.appModalText.innerText = MODAL_TEXT.winBegin + convertTimeToString() + MODAL_TEXT.winSeconds + GRID_PARAMS.currentNumMoves + MODAL_TEXT.winMovesEnd;
   }
   
   if (type === 'loss') {

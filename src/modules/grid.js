@@ -1,5 +1,5 @@
 import { createHtmlElement } from "./element-creator";
-import { createCell, openCell, getCellParameters, calculateAreaIndexes } from "./cell"; 
+import { createCell, openEmptyCells, calculateAreaIndexes, toggleFlag } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
 import { addNumMoves } from "./app-header";
 
@@ -112,44 +112,39 @@ const createHtmlGrid = () => {
           }));
         }
 
-        if (activeCell.dataset.open !== 'true') {
+        if ((activeCell.dataset.open !== 'true') && 
+            (!activeCell.classList.contains('cell--flag'))) {
           addNumMoves();
         }
-
 
         openEmptyCells(activeCell);
       }
     }
   }
   gridHtml.addEventListener('click', clickGrid);
-  GRID_PARAMS.gridHtml = gridHtml;
-}
-
-const openEmptyCells = (activeCell) => {
-  const activeCellParameters = getCellParameters(activeCell);
-  const areaIndexes = calculateAreaIndexes(activeCellParameters.row, activeCellParameters.column);
-
-  if ((activeCellParameters.mode === 'number') || (activeCellParameters.mode === 'bomb')) {
-    openCell(activeCell, true);
-  } else if (activeCellParameters.mode === 'empty') {
-    
-    if (activeCellParameters.open !== true) {
-      openCell(activeCell, true);
-      for (let key in areaIndexes) {
-        let rowAreaCell = areaIndexes[key][0];
-        let columnAreaCell = areaIndexes[key][1];
   
-        // проверка что такие индексы существуют
-        if ((rowAreaCell !== -1) && (columnAreaCell !== -1)) {
-          let indexAreaCell = Number(rowAreaCell + "" + columnAreaCell);
-          let areaCell = GRID_PARAMS.cellsArr[indexAreaCell];
-          let areaCellParameters = getCellParameters(areaCell);
-  
-          if ((areaCellParameters.open !== true)) {
-            openEmptyCells(areaCell);
-          }
+  const rightClickGrid = (e) => {
+    e.preventDefault();
+    const activeElement = e.target;
+    if (activeElement !== gridHtml) {
+      const activeCell = activeElement.closest('.cell');
+      if (activeCell) {
+        
+        if (!GRID_PARAMS.isFirstClick) {
+          GRID_PARAMS.isFirstClick = true;
+          gridHtml.dispatchEvent(new CustomEvent('firstclick', {
+            bubbles: true,
+            detail: 'first click'
+          }));
+        }
+
+        if (activeCell.dataset.open !== 'true') {
+          toggleFlag(activeCell);
         }
       }
     }
   }
+  gridHtml.addEventListener('contextmenu', rightClickGrid);
+
+  GRID_PARAMS.gridHtml = gridHtml;
 }

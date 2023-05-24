@@ -89,18 +89,18 @@
   background-color: $cell-clicked;
 }
 
-.cell--flag { 
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: 90%;
-  background-image: url('img/flag-red.svg');
-}
-
 .cell--bomb {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: 90%;
   background-image: none;
+}
+
+.cell--flag { 
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 90%;
+  background-image: url('img/flag-red.svg');
 }
 
 .cell--active.cell--bomb{

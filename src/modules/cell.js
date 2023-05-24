@@ -1,5 +1,6 @@
 import { createHtmlElement } from "./element-creator";
 import { GRID_PARAMS } from "./app-params";
+import { increaseCurrentFlag, decreaseCurrentFlag } from "./app-header";
 
 export const createCell = (id, rowIndex, columnIndex, value) => {
   const buttonCell = createHtmlElement('button', 'cell');
@@ -38,6 +39,7 @@ export const getCellParameters = (cell) => {
     column: cell.dataset.column,
     mode: cell.dataset.mode,
     open: (cell.dataset.open === 'true'),
+    hasFlag: cell.classList.contains('cell--flag'),
   }
 }
 
@@ -74,20 +76,65 @@ export const calculateAreaIndexes = (currentRow, currentColumn) => {
 }
 
 export const openCell = (cell, isOpen) => {
-  cell.dataset.open = isOpen;
-  cell.classList.add('cell--active');
+  if (!cell.classList.contains('cell--flag')) {
+    cell.dataset.open = isOpen;
+    cell.classList.add('cell--active');
+    cell.classList.remove('cell--flag');
+  
+    if ((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) GRID_PARAMS.numEmptyCells--;
+  
+    if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
+      cell.dispatchEvent(new CustomEvent('gameover', {
+        bubbles: true,
+        detail: getCellParameters(cell)
+      }));
+    } else if (GRID_PARAMS.numEmptyCells === 0) {
+      cell.dispatchEvent(new CustomEvent('gamewin', {
+        bubbles: true,
+        detail: getCellParameters(cell)
+      }));
+    }
+  }
+}
 
-  if ((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) GRID_PARAMS.numEmptyCells--;
+export const openEmptyCells = (activeCell) => {
+  const activeCellParameters = getCellParameters(activeCell);
+  const areaIndexes = calculateAreaIndexes(activeCellParameters.row, activeCellParameters.column);
 
-  if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
-    cell.dispatchEvent(new CustomEvent('gameover', {
-      bubbles: true,
-      detail: getCellParameters(cell)
-    }));
-  } else if (GRID_PARAMS.numEmptyCells === 0) {
-    cell.dispatchEvent(new CustomEvent('gamewin', {
-      bubbles: true,
-      detail: getCellParameters(cell)
-    }));
+  if ((activeCellParameters.mode === 'number') || (activeCellParameters.mode === 'bomb') || (activeCellParameters.hasFlag)) {
+    openCell(activeCell, true);
+  } else if (activeCellParameters.mode === 'empty') {
+    
+    if (activeCellParameters.open !== true) {
+      openCell(activeCell, true);
+      for (let key in areaIndexes) {
+        let rowAreaCell = areaIndexes[key][0];
+        let columnAreaCell = areaIndexes[key][1];
+  
+        // проверка что такие индексы существуют
+        if ((rowAreaCell !== -1) && (columnAreaCell !== -1)) {
+          let indexAreaCell = Number(rowAreaCell + "" + columnAreaCell);
+          let areaCell = GRID_PARAMS.cellsArr[indexAreaCell];
+          let areaCellParameters = getCellParameters(areaCell);
+  
+          if ((areaCellParameters.open !== true)) {
+            openEmptyCells(areaCell);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+export const toggleFlag = (cell) => {
+  if (cell.classList.contains('cell--flag')) {
+    if (increaseCurrentFlag()) {
+      cell.classList.remove('cell--flag');
+    }
+  } else {
+    if (decreaseCurrentFlag()) {
+      cell.classList.add('cell--flag');
+    }
   }
 }

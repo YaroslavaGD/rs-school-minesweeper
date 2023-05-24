@@ -35,8 +35,28 @@ export const createHeader = () => {
 
 
 export const addNumMoves = () => {
-  GRID_PARAMS.stepsNum++;
-  APP_PARAMS.appMoves.innerText = GRID_PARAMS.stepsNum;
+  GRID_PARAMS.currentNumMoves++;
+  APP_PARAMS.appMoves.innerText = GRID_PARAMS.currentNumMoves;
+}
+
+export const increaseCurrentFlag = () => {
+  if (GRID_PARAMS.currentNumFlags < GRID_PARAMS.numFlags) {
+    GRID_PARAMS.currentNumFlags++;
+    APP_PARAMS.appFlags.innerText = GRID_PARAMS.currentNumFlags;
+    return true;
+  } 
+
+  return false;
+}
+
+export const decreaseCurrentFlag = () => {
+  if (GRID_PARAMS.currentNumFlags > 0) {
+    GRID_PARAMS.currentNumFlags--;
+    APP_PARAMS.appFlags.innerText = GRID_PARAMS.currentNumFlags;
+    return true;
+  } 
+
+  return false;
 }
 
 const createTimer = () => {

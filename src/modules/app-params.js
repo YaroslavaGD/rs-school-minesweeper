@@ -3,7 +3,8 @@ const DEFAULT_GRID_PARAMS = {
   minutes: 0,
   timer: undefined,
   isFirstClick: false,
-  stepsNum: 0,
+  currentNumMoves: 0,
+  currentNumFlags: 10,
   numBombs: 10,
   numFlags: 10,
   numCells: 10,
@@ -19,11 +20,11 @@ export const GRID_PARAMS = {
   totalTime: {
     seconds: 0,
     minutes: 0,
-    // hours: 0
   },
   timer: undefined,
   isFirstClick: false,
-  stepsNum: 0,
+  currentNumMoves: 0,
+  currentNumFlags: 10,
   numBombs: 10,
   numFlags: 10,
   numCells: 10,
@@ -55,7 +56,7 @@ export const clearGridParams = () => {
 
   GRID_PARAMS.timer = undefined;
   GRID_PARAMS.isFirstClick = false;
-  GRID_PARAMS.stepsNum = 0;
+  GRID_PARAMS.currentNumMoves = 0;
   GRID_PARAMS.numBombs = DEFAULT_GRID_PARAMS.numBombs;
   GRID_PARAMS.numFlags = DEFAULT_GRID_PARAMS.numFlags;
   GRID_PARAMS.numCells = DEFAULT_GRID_PARAMS.numCells;
