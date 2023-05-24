@@ -76,7 +76,6 @@ export const calculateAreaIndexes = (currentRow, currentColumn) => {
 }
 
 export const openCell = (cell, isOpen) => {
-  console.log('open cell')
   if (!cell.classList.contains('cell--flag')) {
     cell.classList.add('cell--active');
     cell.classList.remove('cell--flag');
@@ -149,11 +148,11 @@ export const toggleFlag = (cell) => {
   if (cell.dataset.mode === 'bomb') {
     GRID_PARAMS.foundBombs++;
 
-    if (GRID_PARAMS.foundBombs === GRID_PARAMS.numBombs) {
-      cell.dispatchEvent(new CustomEvent('gamewin', {
-        bubbles: true,
-        detail: getCellParameters(cell)
-      }));
-    }
+    // if (GRID_PARAMS.foundBombs === GRID_PARAMS.numBombs) {
+    //   cell.dispatchEvent(new CustomEvent('gamewin', {
+    //     bubbles: true,
+    //     detail: getCellParameters(cell)
+    //   }));
+    // }
   }
 }
