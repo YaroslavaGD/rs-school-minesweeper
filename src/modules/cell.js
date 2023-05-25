@@ -1,8 +1,12 @@
 import { createHtmlElement } from "./element-creator";
 import { GRID_PARAMS } from "./app-params";
 import { increaseCurrentFlag, decreaseCurrentFlag } from "./app-header";
+import soundFlag from "../sounds/flag.wav";
+import soundOpen from "../sounds/open.wav";
+import soundBomb from "../sounds/bomb.wav";
+import {playCurrentAudio } from "./audio";
 
-export const createCell = (id, rowIndex, columnIndex, value) => {
+export const  createCell = (id, rowIndex, columnIndex, value) => {
   const buttonCell = createHtmlElement('button', 'cell');
   const number = createHtmlElement('span', 'cell__number');
 
@@ -93,18 +97,25 @@ export const calculateAreaIndexes = (currentRow, currentColumn) => {
   return cellAreaIndexes;
 }
 
-export const openCell = (cell, isOpen) => {
+export const openCell = async (cell, isOpen) => {
   if (!cell.classList.contains('cell--flag')) {
     cell.classList.add('cell--active');
     cell.classList.remove('cell--flag');
     
     if (((cell.dataset.mode === 'empty') || (cell.dataset.mode === 'number')) && 
         (cell.dataset.isOpen !== true)) {
+          // playCurrentAudio('open');
+
+          // audio.src = soundOpen;
+          // audio.play();
           GRID_PARAMS.numEmptyCells--;
-          console.log(GRID_PARAMS.numEmptyCells);
+          // console.log(GRID_PARAMS.numEmptyCells);
     } 
     
     if ((cell.dataset.mode === 'bomb') && (isOpen === true)) {
+      // audio.src = soundBomb;
+      // audio.play();
+      playCurrentAudio('bomb');
       cell.dispatchEvent(new CustomEvent('gameover', {
         bubbles: true,
         detail: getCellParameters(cell)
@@ -152,7 +163,13 @@ export const openEmptyCells = (activeCell) => {
 }
 
 
-export const toggleFlag = (cell) => {
+export const toggleFlag = async (cell) => {
+  // const audio = new Audio(soundFlag);
+  // audio.play();
+  // await playAudio('flag');
+  // GRID_PARAMS.isPlayingAudio = false;
+  // pauseAudio();
+  playCurrentAudio('flag');
   if (cell.classList.contains('cell--flag')) {
     if (increaseCurrentFlag()) {
       cell.classList.remove('cell--flag');

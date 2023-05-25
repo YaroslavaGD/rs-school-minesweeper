@@ -53,6 +53,12 @@
   background-image: url('img/cat-start.svg');
 }
 
+.app-audio {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(10,40px);
@@ -90,7 +96,7 @@
 }
 
 .cell--bomb {
-  // background-color: white;
+  background-color: white;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: 90%;

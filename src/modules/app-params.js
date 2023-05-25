@@ -3,6 +3,7 @@ const DEFAULT_GRID_PARAMS = {
   minutes: 0,
   timer: undefined,
   isFirstClick: false,
+  isPlayingAudio: false,
   currentNumMoves: 0,
   currentNumFlags: 10,
   numBombs: 10,
@@ -24,6 +25,8 @@ export const GRID_PARAMS = {
   },
   timer: undefined,
   isFirstClick: false,
+  isPlayingAudio: true,
+  audioType: 'open',
   currentNumMoves: 0,
   currentNumFlags: 10,
   numBombs: 10,
@@ -48,6 +51,8 @@ export const APP_PARAMS = {
   appModal: undefined,
   appModalButton: undefined,
   appModalText: undefined,
+  appAudio: undefined,
+  appAudioButton: undefined
 }
 
 
@@ -57,6 +62,7 @@ export const clearGridParams = () => {
 
   GRID_PARAMS.timer = undefined;
   GRID_PARAMS.isFirstClick = false;
+  GRID_PARAMS.isPlayingAudio = false,
   GRID_PARAMS.currentNumMoves = 0;
   GRID_PARAMS.numBombs = DEFAULT_GRID_PARAMS.numBombs;
   GRID_PARAMS.numFlags = DEFAULT_GRID_PARAMS.numFlags;

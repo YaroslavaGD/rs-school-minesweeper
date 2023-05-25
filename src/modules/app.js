@@ -4,6 +4,7 @@ import { createGrid } from './grid';
 import { createHeader } from "./app-header";
 import { createModal, openModal } from "./modal";
 import { startTimer, stopTimer } from "./app-timer";
+import { createAudio } from "./audio";
 
 
 
@@ -37,16 +38,20 @@ const createApp = () => {
   app.append(appMain);
 
   app.addEventListener('gameover', (e) => {
-    openModal('loss');
     GRID_PARAMS.gridHtml.classList.add('grid--inactive');
+    setTimeout(() => {
+      openModal('loss');
+    }, 500);
     // app.addEventListener('closemodal', (eventModal) => {
     //   stopTimer();
     // });
   });
 
   app.addEventListener('gamewin', (e) => {
-    openModal('win');
     GRID_PARAMS.gridHtml.classList.add('grid--inactive');
+    setTimeout(() => {
+      openModal('win');
+    }, 500);
     // app.addEventListener('closemodal', (eventModal) => {
     //   stopTimer();
     // });

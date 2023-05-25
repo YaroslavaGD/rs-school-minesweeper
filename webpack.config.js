@@ -91,6 +91,13 @@ module.exports = {
         type: 'asset/resource',
       },
       {
+        test: /\.(mp3|wav|ogg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/sounds/[name][ext]'
+        }
+      },
+      {
         test: /\.(?:js|mjs|cjs)$/i,
         exclude: /node_modules/,
         use: {

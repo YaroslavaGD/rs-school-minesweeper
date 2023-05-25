@@ -3,7 +3,10 @@ import { createHtmlElement } from "./element-creator";
 
 import imageLoss from "../img/cat-loss.svg";
 import imageWin from "../img/cat-win.svg";
+
+
 import { convertTimeToString, pauseTimer } from "./app-timer";
+import { playCurrentAudio } from "./audio";
 
 export const MODAL_TEXT = {
   winBegin: "Hooray! You found all mines in ",
@@ -57,13 +60,15 @@ export const openModal = (type) => {
   pauseTimer();
   APP_PARAMS.appModal.classList.remove('app-modal--win');
   APP_PARAMS.appModal.classList.remove('app-modal--loss');
-
+  
   if (type === 'win') {
+    playCurrentAudio('win');
     APP_PARAMS.appModal.classList.add('app-modal--win');
     APP_PARAMS.appModalText.innerText = MODAL_TEXT.winBegin + convertTimeToString() + MODAL_TEXT.winSeconds + GRID_PARAMS.currentNumMoves + MODAL_TEXT.winMovesEnd;
   }
   
   if (type === 'loss') {
+    playCurrentAudio('loss');
     APP_PARAMS.appModal.classList.add('app-modal--loss');
     APP_PARAMS.appModalText.innerText = MODAL_TEXT.loss;
   }

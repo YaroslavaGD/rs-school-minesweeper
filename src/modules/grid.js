@@ -2,6 +2,7 @@ import { createHtmlElement } from "./element-creator";
 import { createCell, openEmptyCells, calculateAreaIndexes, toggleFlag, getCellParameters, setCellValue } from "./cell"; 
 import { GRID_PARAMS } from "./app-params";
 import { addNumMoves } from "./app-header";
+import { playCurrentAudio } from "./audio";
 
 export const createGrid = () => {
   generateGrid();
@@ -13,9 +14,7 @@ const generateGrid = () => {
   const bombs2DArr = convertTo2DArray(bombsArr, GRID_PARAMS.numCells);
   
   GRID_PARAMS.bombsArr = bombsArr;
-  
-  console.log(bombsArr);
-  console.log(bombs2DArr);
+
   GRID_PARAMS.gridArr = calculateNumbers(bombs2DArr);
 }
 
@@ -121,6 +120,10 @@ const createHtmlGrid = () => {
         if ((activeCell.dataset.open !== 'true') && 
             (!activeCell.classList.contains('cell--flag'))) {
           addNumMoves();
+
+          if (activeCell.dataset.mode !== 'bomb') {
+            playCurrentAudio('open');
+          }
         }
 
         openEmptyCells(activeCell);

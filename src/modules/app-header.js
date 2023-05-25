@@ -4,12 +4,17 @@ import imageTime from "../img/time.svg";
 import imageFlag from "../img/flag-red.svg";
 import imageMove from "../img/step.svg";
 import imageBomb from "../img/bomb.svg";
+import imageSoundOn from "../img/sound-on.svg";
+import imageSoundOff from "../img/sound-off.svg";
+import { createAudio } from "./audio";
+
 // import { stopTimer } from "./app-timer";
 // import { destroyApp } from "./app";
 
 export const createHeader = () => {
   const appHeader = createHtmlElement('div', 'app-header');
 
+  const appAudioButton = createAudioSwitch();
   const appTimer = createTimer();
   const appFlags = createFlags();
   const appMoves = createMoves();
@@ -28,6 +33,7 @@ export const createHeader = () => {
   appHeader.append(appFlags);
   appHeader.append(appMoves);
   appHeader.append(appBombs);
+  appHeader.append(appAudioButton);
 
   APP_PARAMS.appHeader = appHeader;
   // APP_PARAMS.appRestart = restartButton;
@@ -141,4 +147,32 @@ const createBombs = () => {
   APP_PARAMS.appBombs = bombsNumber;
 
   return appBombs;
+}
+
+const createAudioSwitch = () => {
+  const audioButton = createHtmlElement('button', 'app-header__item');
+  audioButton.classList.add('app-audio');
+  const audioImg = new Image();
+  audioImg.src = imageSoundOn;
+  audioImg.alt = 'Audio switch';
+  audioImg.classList.add('app-header__img');
+
+  audioButton.append(audioImg);
+
+  createAudio();
+  audioButton.addEventListener('click', (e) => {
+    const img = audioButton.querySelector('.app-header__img');
+    if (GRID_PARAMS.isPlayingAudio) {
+      GRID_PARAMS.isPlayingAudio = false;
+      APP_PARAMS.appAudio.muted = true;
+      img.src = imageSoundOff;
+    } else {
+      GRID_PARAMS.isPlayingAudio = true;
+      APP_PARAMS.appAudio.muted = false;
+      img.src = imageSoundOn;
+    }
+  });
+
+
+  return audioButton;
 }
