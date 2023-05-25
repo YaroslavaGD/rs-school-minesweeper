@@ -5,6 +5,7 @@ import { createHeader } from "./app-header";
 import { createModal, openModal } from "./modal";
 import { startTimer, stopTimer } from "./app-timer";
 import { createAudio } from "./audio";
+import { createFooter } from "./app-footer";
 
 
 
@@ -30,10 +31,12 @@ const createApp = () => {
   createGrid();
   createHeader();
   createModal();
+  createFooter();
 
   appMain.append(APP_PARAMS.appHeader);
   appMain.append(GRID_PARAMS.gridHtml);
   appMain.append(APP_PARAMS.appModal);
+  appMain.append(APP_PARAMS.appFooter);
 
   app.append(appMain);
 

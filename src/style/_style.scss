@@ -12,12 +12,13 @@
 
 .app__container {
   display: inline-block;
-  margin: 10vw auto;
+  margin: 8vw auto;
   background-color: $back-field;
   border-radius: 16px;
 }
 
-.app-header {
+.app-footer,
+.app-header{
   display: flex;
   justify-content: space-between;
   
@@ -25,19 +26,32 @@
   border-bottom: 2px solid #5d5d5d;
 }
 
+.app-footer {
+  border: none;
+  border-top: 2px solid #5d5d5d;
+}
+
+.app-footer__item,
 .app-header__item {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
+.app-footer__item {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.app-footer__text,
 .app-header__text {
   color: $app-white;
   width: 45px;
-  
   text-align: center;
 }
 
+.app-footer__img,
 .app-header__img {
   width: 40px;
 }
@@ -233,6 +247,51 @@
 
 .app-modal--win .app-modal__img--win {
   display: block;
+}
+
+// light mode
+.app--light.app {
+  background-color: #c7c7c7;
+}
+.app--light .app__container {
+  background-color: #ececec;
+}
+.app--light .app-footer,
+.app--light .app-header {
+  border-bottom: 2px solid #c7c7c7;
+}
+.app--light .app-footer {
+  border: none;
+  border-top: 2px solid #c7c7c7;
+}
+
+.app--light .cell {
+  border-color: #d2d2d2;
+  background-color: #d2d2d2;
+}
+.app--light .cell.cell--active {
+  background-color: transparent;
+}
+
+.app--light .cell[data-value="2"] .cell__number {
+  color: #3cca48;
+}
+
+.app--light .app-footer__text, 
+.app--light .app-header__text {
+  color: #686868;
+}
+
+.app--light .app-modal {
+  background: rgb(196 196 196 / 60%);
+}
+
+.app--light .app-modal__window {
+  background: #ececec;
+}
+
+.app--light .app-modal__text {
+  color: #686868;
 }
 
 @media (max-width: 1030px) {
